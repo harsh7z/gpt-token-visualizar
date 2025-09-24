@@ -15,6 +15,7 @@ A small project that visualizes GPT tokenization and token usage across prompts 
 - Node.js (recommended 18+)
 - npm
 - Python 3.10+ (for the backend)
+- uv (for the backend)
 
 ## Frontend (Next.js)
 
@@ -76,7 +77,7 @@ uv run uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 Tiktoken / tokenizer notes
 
-The backend uses OpenAI's `tiktoken` tokenizer (via the `tiktoken` Python package) to mirror tokenization behavior used by OpenAI models. The service attempts to select the appropriate encoding with `tiktoken.encoding_for_model(model)` and falls back to the `cl100k_base` encoding when a model-specific encoding isn't available.
+The backend uses OpenAI's `tiktoken` tokenizer (via the `tiktoken` Python package) (`tiktoken` is OpenAI’s high-performance Rust-based tokenizer library with Python bindings, providing model-specific byte-pair encoding (BPE) implementations to efficiently convert text to tokens for GPT models) to mirror tokenization behavior used by OpenAI models. The service attempts to select the appropriate encoding with `tiktoken.encoding_for_model(model)` and falls back to the `cl100k_base` encoding when a model-specific encoding isn't available.
 
 API example
 
