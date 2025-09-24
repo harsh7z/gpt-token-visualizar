@@ -4,7 +4,7 @@ A small project that visualizes GPT tokenization and token usage across prompts 
 
 **Repository layout**
 - `frontend/` — Next.js 15 app that provides the UI and visualization.
-- `backend/` — Minimal Python service (single-file) used for token processing and examples.
+- `backend/` — Python FastAPI backend that uses OpenAI's `tiktoken` tokenizer for tokenization.
 
 ## Features
 - Visualize tokenization for prompts and model outputs
@@ -13,7 +13,7 @@ A small project that visualizes GPT tokenization and token usage across prompts 
 
 ## Requirements
 - Node.js (recommended 18+)
-- npm, yarn or pnpm
+- npm
 - Python 3.10+ (for the backend)
 
 ## Frontend (Next.js)
@@ -80,9 +80,21 @@ The backend uses OpenAI's `tiktoken` tokenizer (via the `tiktoken` Python packag
 
 API example
 
-POST `/tokenize` — request body: `{"text":"...","model":"gpt-4o-mini"}`
+```bash
+curl -sS -X POST "http://localhost:8000/tokenize" \
+	-H "Content-Type: application/json" \
+	-d '{"text":"Hello world","model":"gpt-4o-mini"}'
+```
 
-Example `curl` request:
+Example response (shape):
+
+```json
+{
+	"count": 2,
+	"ids": [15339, 1917],
+	"tokens": ["Hello", " world"]
+}
+```
 
 ## Running the full stack locally
 
