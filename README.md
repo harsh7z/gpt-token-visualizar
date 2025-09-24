@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GPT Token Visualizer
 
-## Getting Started
+A small project that visualizes GPT tokenization and token usage across prompts and responses. The repository contains a Next.js frontend and a lightweight Python backend used to analyze and serve tokenization information.
 
-First, run the development server:
+**Repository layout**
+- `frontend/` — Next.js 15 app that provides the UI and visualization.
+- `backend/` — Minimal Python service (single-file) used for token processing and examples.
+
+## Features
+- Visualize tokenization for prompts and model outputs
+- Simple API for sending text to the backend for token analysis
+- Ready to run locally and deploy (frontend deploys to Vercel, backend can run on any Python host)
+
+## Requirements
+- Node.js (recommended 18+)
+- npm, yarn or pnpm
+- Python 3.10+ (for the backend)
+
+## Frontend (Next.js)
+
+Quick start
+
+1. Change into the `frontend` directory:
+
+```bash
+cd frontend
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Available scripts (from `frontend/package.json`)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `dev` — starts Next.js in development mode (`next dev --turbopack`)
+- `build` — builds the production bundle (`next build --turbopack`)
+- `start` — runs the production server (`next start`)
+- `lint` — runs `eslint`
 
-## Learn More
+Notes
+- The frontend depends on `axios` to call the backend API.
+- The included `frontend/README.md` contains the default create-next-app content.
 
-To learn more about Next.js, take a look at the following resources:
+## Backend (Python)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Quick start
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Change into the `backend` directory:
 
-## Deploy on Vercel
+```bash
+cd backend
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Create a virtual environment and install dependencies:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+uv init
+uv pip add -r requirements.txt
+```
+
+3. Run the backend service:
+
+```bash
+uv run uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Tiktoken / tokenizer notes
+
+The backend uses OpenAI's `tiktoken` tokenizer (via the `tiktoken` Python package) to mirror tokenization behavior used by OpenAI models. The service attempts to select the appropriate encoding with `tiktoken.encoding_for_model(model)` and falls back to the `cl100k_base` encoding when a model-specific encoding isn't available.
+
+API example
+
+POST `/tokenize` — request body: `{"text":"...","model":"gpt-4o-mini"}`
+
+Example `curl` request:
+
+## Running the full stack locally
+
+1. Start the backend (see steps above).
+2. Start the frontend development server.
+3. Use the UI to send text to the backend and view tokenization visualizations.
